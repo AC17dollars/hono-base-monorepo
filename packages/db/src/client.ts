@@ -1,13 +1,17 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { config } from "@dotenvx/dotenvx";
-import * as schema from "./schema/schema.js";
+import * as schema from "./schema/index.js";
 
-config();
+export type DbClient = ReturnType<typeof createDb>;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  max: 10,
-});
-
-export const db = drizzle(pool, { schema });
+/**
+ * Creates a new Drizzle database client bound to the given connection string.
+ * This is the preferred way to instantiate the database in an application.
+ *
+ * @example
+ * const db = createDb(process.env.DATABASE_URL!);
+ */
+export function createDb(connectionString: string, poolSize = 10) {
+  const pool = new Pool({ connectionString, max: poolSize });
+  return drizzle(pool, { schema });
+}

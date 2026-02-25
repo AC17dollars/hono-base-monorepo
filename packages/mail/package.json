@@ -1,7 +1,7 @@
 {
-  "name": "@repo/auth",
+  "name": "@repo/mail",
   "version": "1.0.0",
-  "description": "Shared authentication configuration",
+  "description": "Mail sending library for sending transactional emails",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -16,18 +16,16 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "generate": "dotenvx run -- pnpm dlx @better-auth/cli generate --config src/index.ts --output ../db/src/schema/external/auth-schema.ts"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.52.0",
-    "@repo/db": "workspace:*",
-    "@repo/mail": "workspace:*",
-    "better-auth": "^1.4.19"
+    "nodemailer": "^8.0.1"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@types/nodemailer": "^7.0.11",
     "@types/node": "^25.3.0",
-    "tsdown": "^0.20.0",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.3"
   }
 }
