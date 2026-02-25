@@ -1,0 +1,32 @@
+{
+  "name": "@repo/auth",
+  "version": "1.0.0",
+  "description": "Shared authentication configuration",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "generate": "dotenvx run -- pnpm dlx @better-auth/cli generate --config src/index.ts --output ../db/src/external/auth-schema.ts"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
+    "@repo/db": "workspace:*",
+    "better-auth": "^1.4.19"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^25.3.0",
+    "tsdown": "^0.20.0",
+    "typescript": "^5.9.3"
+  }
+}
