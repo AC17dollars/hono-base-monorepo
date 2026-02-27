@@ -1,16 +1,15 @@
-import { config } from "@dotenvx/dotenvx";
-config();
+import { env } from "@repo/config/backend-api";
 
 import { serve } from "@hono/node-server";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { openAPIRouteHandler } from "hono-openapi";
-import { initInstances } from "./lib/instances.js";
+import { getInstances } from "./lib/instances.js";
 import type { AppEnv } from "./lib/app.js";
 
 // Initialize all service instances (DB, Mailer, Auth)
-initInstances();
+getInstances();
 
 import { sessionMiddleware } from "./middleware/session.js";
 import { authRoutes } from "./modules/auth/index.js";
@@ -22,7 +21,7 @@ const app = new Hono<AppEnv>();
 app.use(
   "*",
   cors({
-    origin: process.env.CORS_ORIGIN ?? "http://localhost:3000",
+    origin: env.CORS_ORIGIN,
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
@@ -53,7 +52,7 @@ app.get(
 app.get(
   "/docs",
   Scalar({
-    theme: "saturn",
+    theme: "default",
     pageTitle: "API Documentation",
     sources: [
       { url: "/openapi.json", title: "API" },
@@ -62,12 +61,10 @@ app.get(
   }),
 );
 
-const port = Number(process.env.PORT) || 3000;
-
 serve(
   {
     fetch: app.fetch,
-    port,
+    port: env.PORT,
   },
   (info) => {
     console.log(`Server is running on http://localhost:${info.port}`);

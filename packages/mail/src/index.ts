@@ -6,11 +6,7 @@ export type { SendEmailOptions } from "./sendEmail.js";
 
 export { EmailError } from "./errors.js";
 
-export {
-  sendWelcomeMessage,
-  sendPasswordResetEmail,
-  sendEmailOTP,
-} from "./templates/index.js";
+export { sendWelcomeMessage, sendPasswordResetEmail, sendEmailOTP } from "./templates/index.js";
 export type {
   WelcomeMessageOptions,
   PasswordResetOptions,

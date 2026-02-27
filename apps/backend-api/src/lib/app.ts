@@ -1,8 +1,9 @@
 import { Hono } from "hono";
-import { auth } from "./instances.js";
+import { getAuth } from "./instances.js";
 
-export type SessionUser = (typeof auth)["$Infer"]["Session"]["user"];
-export type Session = (typeof auth)["$Infer"]["Session"]["session"];
+export type Auth = ReturnType<typeof getAuth>;
+export type SessionUser = Auth["$Infer"]["Session"]["user"];
+export type Session = Auth["$Infer"]["Session"]["session"];
 
 export type AppVariables = {
   user: SessionUser | null;

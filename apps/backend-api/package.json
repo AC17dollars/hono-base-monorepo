@@ -2,22 +2,25 @@
   "name": "backend-api",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "dotenvx run -- tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "dotenvx run -- node dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
     "@hono/standard-validator": "^0.2.2",
     "@repo/auth": "workspace:*",
+    "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/mail": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.45",
     "hono": "^4.12.2",
     "hono-openapi": "^1.2.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
     "@types/node": "^25.3.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"

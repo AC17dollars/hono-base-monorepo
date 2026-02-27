@@ -1,28 +1,27 @@
 {
+  "$schema": "https://www.schemastore.org/package.json",
   "name": "hono-base-monorepo",
   "version": "1.0.0",
-  "description": "",
   "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "biome format --write .",
+    "dev": "turbo watch dev",
+    "dev:backend-api": "turbo watch dev --filter=backend-api...",
+    "build:backend-api": "turbo run build --filter=backend-api...",
     "test": "turbo run test",
-    "db:generate": "pnpm --filter @repo/db db:generate",
-    "db:migrate": "pnpm --filter @repo/db db:migrate",
-    "db:studio": "pnpm --filter @repo/db db:studio"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.30.2",
-  "dependencies": {
-    "@dotenvx/dotenvx": "^1.52.0"
+    "db:generate": "turbo db:generate",
+    "db:migrate": "turbo db:migrate",
+    "db:push": "turbo db:push",
+    "db:studio": "turbo db:studio"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.4",
-    "turbo": "^2.8.10",
+    "@dotenvx/dotenvx": "^1.54.1",
+    "turbo": "^2.8.14",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "pnpm@10.30.2"
 }

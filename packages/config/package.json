@@ -1,0 +1,26 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "name": "@repo/config",
+  "version": "1.0.0",
+  "description": "Validated environment configuration schemas for each app",
+  "type": "module",
+  "exports": {
+    "./backend-api": {
+      "types": "./dist/backend-api.d.mts",
+      "import": "./dist/backend-api.mjs",
+      "default": "./dist/backend-api.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^25.3.0",
+    "tsdown": "^0.20.0",
+    "typescript": "^5.9.3"
+  }
+}

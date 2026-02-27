@@ -1,29 +1,46 @@
 import { createDb } from "@repo/db";
+import type { DbClient } from "@repo/db";
 import { createMailer } from "@repo/mail";
+import type { Mailer } from "@repo/mail";
 import { createAuth } from "@repo/auth";
+import type { Auth } from "@repo/auth";
+import { env } from "@repo/config/backend-api";
 
-// These will be initialized in the entry point
-export let db: ReturnType<typeof createDb>;
-export let mailer: ReturnType<typeof createMailer>;
-export let auth: ReturnType<typeof createAuth>;
+type Instances = {
+  db: DbClient;
+  mailer: Mailer;
+  auth: Auth;
+};
 
-export function initInstances() {
-  db = createDb(process.env.DATABASE_URL!);
+let _instances: Instances | null = null;
 
-  mailer = createMailer({
-    host: process.env.SMTP_HOST!,
-    port: Number(process.env.SMTP_PORT!),
-    auth: {
-      user: process.env.SMTP_USER!,
-      pass: process.env.SMTP_PASSWORD!,
-    },
-    from: process.env.SMTP_FROM!,
-  });
+export function getInstances(): Instances {
+  if (!_instances) {
+    const db = createDb(env.DATABASE_URL);
 
-  auth = createAuth({
-    db,
-    mailer,
-    secret: process.env.BETTER_AUTH_SECRET!,
-    url: process.env.BETTER_AUTH_URL!,
-  });
+    const mailer = createMailer({
+      host: env.SMTP_HOST,
+      port: env.SMTP_PORT,
+      auth: {
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASSWORD,
+      },
+      from: env.SMTP_FROM,
+    });
+
+    const auth = createAuth({
+      db,
+      mailer,
+      secret: env.BETTER_AUTH_SECRET,
+      url: env.BETTER_AUTH_URL,
+    });
+
+    _instances = { db, mailer, auth };
+  }
+
+  return _instances;
 }
+
+export const getDb = (): DbClient => getInstances().db;
+export const getMailer = (): Mailer => getInstances().mailer;
+export const getAuth = (): Auth => getInstances().auth;

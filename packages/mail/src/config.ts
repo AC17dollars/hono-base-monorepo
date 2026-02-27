@@ -1,6 +1,5 @@
 import type { Transporter } from "nodemailer";
 import nodemailer from "nodemailer";
-import { EmailError } from "./errors.js";
 import { type SendEmailOptions, sendEmail } from "./sendEmail.js";
 import {
   type EmailOTPOptions,
