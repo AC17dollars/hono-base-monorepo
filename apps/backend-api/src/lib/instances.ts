@@ -1,9 +1,9 @@
 import { createDb } from "@repo/db";
 import type { DbClient } from "@repo/db";
-import { createMailer } from "@repo/mail";
 import type { Mailer } from "@repo/mail";
 import { createAuth } from "@repo/auth";
 import type { Auth } from "@repo/auth";
+import { createQueueClient, createQueueMailer } from "@repo/queue";
 import { env } from "@repo/config/backend-api";
 
 type Instances = {
@@ -18,21 +18,21 @@ export function getInstances(): Instances {
   if (!_instances) {
     const db = createDb(env.DATABASE_URL);
 
-    const mailer = createMailer({
-      host: env.SMTP_HOST,
-      port: env.SMTP_PORT,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASSWORD,
-      },
-      from: env.SMTP_FROM,
-    });
+    const queue = createQueueClient({ redisUrl: env.REDIS_URL });
+    const mailer = createQueueMailer(queue);
 
     const auth = createAuth({
       db,
       mailer,
       secret: env.BETTER_AUTH_SECRET,
       url: env.BETTER_AUTH_URL,
+      ...(env.GOOGLE_CLIENT_ID &&
+        env.GOOGLE_CLIENT_SECRET && {
+          google: {
+            clientId: env.GOOGLE_CLIENT_ID,
+            clientSecret: env.GOOGLE_CLIENT_SECRET,
+          },
+        }),
     });
 
     _instances = { db, mailer, auth };

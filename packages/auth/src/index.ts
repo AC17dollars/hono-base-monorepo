@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { emailOTP, openAPI, twoFactor } from "better-auth/plugins";
+import { openAPI, twoFactor } from "better-auth/plugins";
 import type { DbClient } from "@repo/db";
 import type { Mailer } from "@repo/mail";
 
@@ -10,6 +10,11 @@ export interface AuthOptions {
   secret: string;
   url: string;
   appName?: string;
+  /** Google OAuth credentials for SSO. When provided, Google sign-in is enabled. */
+  google?: {
+    clientId: string;
+    clientSecret: string;
+  };
 }
 
 /**
@@ -24,7 +29,7 @@ export interface AuthOptions {
  * });
  */
 export function createAuth(options: AuthOptions) {
-  const { db, mailer, secret, url, appName = "Turbo Base" } = options;
+  const { db, mailer, secret, url, appName = "Turbo Base", google } = options;
 
   return betterAuth({
     database: drizzleAdapter(db, {
@@ -32,6 +37,7 @@ export function createAuth(options: AuthOptions) {
     }),
     secret,
     baseURL: url,
+    appName,
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: true,
@@ -46,18 +52,31 @@ export function createAuth(options: AuthOptions) {
         });
       },
     },
+    ...(google && {
+      socialProviders: {
+        google: {
+          clientId: google.clientId,
+          clientSecret: google.clientSecret,
+        },
+      },
+    }),
     plugins: [
       openAPI(),
-      twoFactor(),
-      emailOTP({
-        sendVerificationOTP: async (data, _ctx) => {
-          await mailer.sendEmailOTP({
-            to: data.email,
-            otp: data.otp,
-            purpose: "verification",
-            expiresIn: "1 hour",
-            appName,
-          });
+      twoFactor({
+        issuer: appName,
+        otpOptions: {
+          sendOTP: async ({ user, otp }, _ctx) => {
+            if (!user.email) {
+              throw new Error("User email is required for OTP fallback");
+            }
+            await mailer.sendEmailOTP({
+              to: user.email,
+              otp,
+              purpose: "two-factor",
+              expiresIn: "10 minutes",
+              appName,
+            });
+          },
         },
       }),
     ],

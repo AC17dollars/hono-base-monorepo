@@ -21,22 +21,23 @@
   },
   "scripts": {
     "build": "tsdown",
-    "db:push": "dotenvx run --env-file=../../apps/backend-api/.env -- drizzle-kit push",
-    "db:generate": "dotenvx run --env-file=../../apps/backend-api/.env -- drizzle-kit generate",
-    "db:migrate": "dotenvx run --env-file=../../apps/backend-api/.env -- drizzle-kit migrate",
-    "db:studio": "dotenvx run --env-file=../../apps/backend-api/.env -- drizzle-kit studio"
+    "db:push": "dotenvx run --env-file=../../.env -- drizzle-kit push",
+    "db:generate": "dotenvx run --env-file=../../.env -- drizzle-kit generate",
+    "db:migrate": "dotenvx run --env-file=../../.env -- drizzle-kit migrate",
+    "db:studio": "dotenvx run --env-file=../../.env -- drizzle-kit studio",
+    "db:drop": "dotenvx run --env-file=../../.env -- drizzle-kit drop"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",
-    "pg": "^8.18.0"
+    "pg": "^8.20.0"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.52.0",
+    "@dotenvx/dotenvx": "^1.54.1",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.3.0",
-    "@types/pg": "^8.16.0",
+    "@types/node": "^25.4.0",
+    "@types/pg": "^8.18.0",
     "drizzle-kit": "^0.31.9",
-    "tsdown": "^0.20.0",
+    "tsdown": "^0.20.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

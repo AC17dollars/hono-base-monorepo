@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
-  "name": "@repo/mail",
+  "name": "@repo/queue",
   "version": "1.0.0",
-  "description": "Mail sending library for sending transactional emails",
+  "description": "BullMQ queue package for job processing",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -19,13 +19,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "nodemailer": "^8.0.2"
+    "@repo/mail": "workspace:*",
+    "bullmq": "^5.70.4",
+    "ioredis": "^5.10.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^25.4.0",
-    "@types/nodemailer": "^7.0.11",
-    "tsdown": "^0.20.3",
+    "tsdown": "^0.21.1",
     "typescript": "^5.9.3"
   }
 }

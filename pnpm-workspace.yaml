@@ -3,5 +3,5 @@ packages:
   - packages/*
 
 onlyBuiltDependencies:
-  - "@biomejs/biome"
   - esbuild
+  - msgpackr-extract

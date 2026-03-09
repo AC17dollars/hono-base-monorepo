@@ -16,18 +16,19 @@
   },
   "scripts": {
     "build": "tsdown",
-    "generate": "dotenvx run -- pnpm dlx @better-auth/cli generate --config src/index.ts --output ../db/src/schema/external/auth-schema.ts"
+    "generate": "dotenvx run --env-file=../../.env -- pnpm dlx @better-auth/cli generate --config ./auth-cli.config.ts --output ../db/src/schema/external/auth-schema.ts --yes"
   },
   "dependencies": {
+    "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/mail": "workspace:*",
-    "better-auth": "^1.4.19"
+    "better-auth": "^1.5.4"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.52.0",
+    "@dotenvx/dotenvx": "^1.54.1",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.3.0",
-    "tsdown": "^0.20.0",
+    "@types/node": "^25.4.0",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.3"
   }
 }

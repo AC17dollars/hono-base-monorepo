@@ -1,8 +1,9 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  entry: ["src/backend-api.ts", "src/queue.ts", "src/queue-worker.ts"],
+  entry: ["src/index.ts"],
   format: ["esm"],
   dts: true,
+  clean: true,
   sourcemap: true,
 });

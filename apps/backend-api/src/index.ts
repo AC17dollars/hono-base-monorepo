@@ -1,4 +1,5 @@
 import { env } from "@repo/config/backend-api";
+import { createLogger, loggerMiddleware } from "@repo/logger";
 
 import { serve } from "@hono/node-server";
 import { Scalar } from "@scalar/hono-api-reference";
@@ -7,6 +8,8 @@ import { cors } from "hono/cors";
 import { openAPIRouteHandler } from "hono-openapi";
 import { getInstances } from "./lib/instances.js";
 import type { AppEnv } from "./lib/app.js";
+
+const logger = createLogger();
 
 // Initialize all service instances (DB, Mailer, Auth)
 getInstances();
@@ -28,9 +31,11 @@ app.use(
   }),
 );
 
+app.use("*", loggerMiddleware<AppEnv>({ logger }));
+
 app.use("*", sessionMiddleware);
 
-app.get("/", (c) => c.text("Hello Hono!"));
+app.get("/", (c) => c.redirect("/docs"));
 
 app.route("/api/auth", authRoutes);
 app.route("/api/health", healthRoutes);
@@ -67,6 +72,6 @@ serve(
     port: env.PORT,
   },
   (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
+    logger.info(`Server is running on http://localhost:${info.port}`);
   },
 );

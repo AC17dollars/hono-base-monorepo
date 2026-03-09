@@ -13,6 +13,13 @@ const schema = z.object({
   BETTER_AUTH_SECRET: z.string().min(1),
   BETTER_AUTH_URL: z.url(),
 
+  // Google SSO (optional - enables Google sign-in when provided)
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+
+  // Redis (for queue - used by backend-api to push jobs)
+  REDIS_URL: z.string().url(),
+
   // SMTP / Mail
   SMTP_HOST: z.string().min(1),
   SMTP_PORT: z.coerce.number().default(587),

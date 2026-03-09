@@ -1,8 +1,8 @@
-import type { Context, Next } from "hono";
+import { createMiddleware } from "hono/factory";
 import { getAuth } from "../lib/instances.js";
 import type { AppEnv } from "../lib/app.js";
 
-export async function sessionMiddleware(c: Context<AppEnv, "*", {}>, next: Next) {
+export const sessionMiddleware = createMiddleware<AppEnv>(async (c, next) => {
   const session = await getAuth().api.getSession({
     headers: c.req.raw.headers,
   });
@@ -16,5 +16,6 @@ export async function sessionMiddleware(c: Context<AppEnv, "*", {}>, next: Next)
 
   c.set("user", session.user);
   c.set("session", session.session);
+  
   await next();
-}
+});
