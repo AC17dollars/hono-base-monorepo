@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+/**
+ * Single validated env schema for the monorepo.
+ * Root .env is shared; all apps use this config.
+ */
 const schema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().default(3000),
@@ -17,8 +21,8 @@ const schema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
-  // Redis (for queue - used by backend-api to push jobs)
-  REDIS_URL: z.string().url(),
+  // Redis (queue)
+  REDIS_URL: z.url(),
 
   // SMTP / Mail
   SMTP_HOST: z.string().min(1),
@@ -29,4 +33,4 @@ const schema = z.object({
 });
 
 export const env = schema.parse(process.env);
-export type BackendApiEnv = typeof env;
+export type Env = z.infer<typeof schema>;

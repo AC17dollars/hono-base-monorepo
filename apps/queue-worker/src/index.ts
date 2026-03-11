@@ -8,7 +8,7 @@ import {
 } from "@repo/mail";
 import { createWorkerConnection, MAIL_QUEUE_NAME } from "@repo/queue";
 import type { MailJobType } from "@repo/queue";
-import { env } from "@repo/config/queue-worker";
+import { env } from "@repo/config";
 
 const connection = createWorkerConnection(env.REDIS_URL);
 

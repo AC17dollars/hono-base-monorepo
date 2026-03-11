@@ -2,23 +2,14 @@
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@repo/config",
   "version": "1.0.0",
-  "description": "Validated environment configuration schemas for each app",
+  "description": "Validated environment configuration for the monorepo (root .env)",
   "type": "module",
+  "sideEffects": false,
   "exports": {
-    "./backend-api": {
-      "types": "./dist/backend-api.d.mts",
-      "import": "./dist/backend-api.mjs",
-      "default": "./dist/backend-api.mjs"
-    },
-    "./queue": {
-      "types": "./dist/queue.d.mts",
-      "import": "./dist/queue.mjs",
-      "default": "./dist/queue.mjs"
-    },
-    "./queue-worker": {
-      "types": "./dist/queue-worker.d.mts",
-      "import": "./dist/queue-worker.mjs",
-      "default": "./dist/queue-worker.mjs"
+    ".": {
+      "types": "./dist/env.d.mts",
+      "import": "./dist/env.mjs",
+      "default": "./dist/env.mjs"
     }
   },
   "scripts": {

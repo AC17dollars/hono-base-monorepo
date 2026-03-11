@@ -4,7 +4,7 @@ Monorepo with shared packages (`@repo/auth`, `@repo/db`, `@repo/config`, `@repo/
 
 ## Setup
 
-1. Copy `apps/backend-api/.env.example` to `apps/backend-api/.env` and fill in values.
+1. Copy `.env.example` to `.env` at the repo root and fill in values.
 2. `pnpm install`
 3. `pnpm build`
 
@@ -48,7 +48,7 @@ Monorepo with shared packages (`@repo/auth`, `@repo/db`, `@repo/config`, `@repo/
 
 - **`@repo/db`** – Drizzle client, schema, migrations. Central point for DB.
 - **`@repo/auth`** – Better Auth config. Schema generation via `auth-cli.config.ts`.
-- **`@repo/config`** – Zod env schemas (`backend-api`, `shared` for CLI).
+- **`@repo/config`** – Validated env from root `.env` (single schema for all apps).
 - **`@repo/mail`** – Transactional email.
 
-DB and auth scripts use `apps/backend-api/.env`.
+DB and auth scripts use root `.env`.

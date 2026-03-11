@@ -5,15 +5,17 @@ export type Logger = pino.Logger;
 export interface LoggerOptions {
   /** Log level (default: 'info') */
   level?: pino.Level;
+  /** Use pino-pretty for human-readable output (dev mode). Pass from env.NODE_ENV !== "production" */
+  dev?: boolean;
 }
 
 /**
  * Creates a pino logger instance.
- * - Development: Uses pino-pretty transport for human-readable, colorized output
- * - Production: Uses default JSON output for log aggregation
+ * - Development (dev: true): Uses pino-pretty transport for human-readable, colorized output
+ * - Production (dev: false): Uses default JSON output for log aggregation
  */
 export function createLogger(options?: LoggerOptions): Logger {
-  const isDev = process.env.NODE_ENV !== "production";
+  const isDev = options?.dev ?? false;
 
   return pino({
     level: options?.level ?? "info",

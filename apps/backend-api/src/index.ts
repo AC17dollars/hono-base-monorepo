@@ -1,4 +1,4 @@
-import { env } from "@repo/config/backend-api";
+import { env } from "@repo/config";
 import { createLogger, loggerMiddleware } from "@repo/logger";
 
 import { serve } from "@hono/node-server";
@@ -9,7 +9,10 @@ import { openAPIRouteHandler } from "hono-openapi";
 import { getInstances } from "./lib/instances.js";
 import type { AppEnv } from "./lib/app.js";
 
-const logger = createLogger();
+const logger = createLogger({
+  level: env.NODE_ENV === "production" ? "info" : "debug",
+  dev: env.NODE_ENV !== "production",
+});
 
 // Initialize all service instances (DB, Mailer, Auth)
 getInstances();
@@ -17,10 +20,10 @@ getInstances();
 import { sessionMiddleware } from "./middleware/session.js";
 import { authRoutes } from "./modules/auth/index.js";
 import { healthRoutes } from "./modules/health/index.js";
-import { sessionRoutes } from "./modules/session/index.js";
 
 const app = new Hono<AppEnv>();
 
+// Middlewares
 app.use(
   "*",
   cors({
@@ -30,17 +33,16 @@ app.use(
     credentials: true,
   }),
 );
-
 app.use("*", loggerMiddleware<AppEnv>({ logger }));
-
 app.use("*", sessionMiddleware);
 
 app.get("/", (c) => c.redirect("/docs"));
 
+// Routes
 app.route("/api/auth", authRoutes);
 app.route("/api/health", healthRoutes);
-app.route("/api/session", sessionRoutes);
 
+// OpenAPI
 app.get(
   "/openapi.json",
   openAPIRouteHandler(app, {
@@ -66,12 +68,13 @@ app.get(
   }),
 );
 
+// Server
 serve(
   {
     fetch: app.fetch,
     port: env.PORT,
   },
   (info) => {
-    logger.info(`Server is running on http://localhost:${info.port}`);
+    logger.info(`Server is running on: http://localhost:${info.port}`);
   },
 );

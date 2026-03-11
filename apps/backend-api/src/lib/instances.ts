@@ -4,7 +4,7 @@ import type { Mailer } from "@repo/mail";
 import { createAuth } from "@repo/auth";
 import type { Auth } from "@repo/auth";
 import { createQueueClient, createQueueMailer } from "@repo/queue";
-import { env } from "@repo/config/backend-api";
+import { env } from "@repo/config";
 
 type Instances = {
   db: DbClient;

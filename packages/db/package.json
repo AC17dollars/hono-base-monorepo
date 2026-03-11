@@ -28,6 +28,7 @@
     "db:drop": "dotenvx run --env-file=../../.env -- drizzle-kit drop"
   },
   "dependencies": {
+    "@repo/config": "workspace:*",
     "drizzle-orm": "^0.45.1",
     "pg": "^8.20.0"
   },

@@ -6,7 +6,7 @@
 import { createAuth } from "@repo/auth";
 import { createDb } from "@repo/db";
 import { createMailer } from "@repo/mail";
-import { env } from "@repo/config/backend-api";
+import { env } from "@repo/config";
 
 const db = createDb(env.DATABASE_URL);
 const mailer = createMailer({
