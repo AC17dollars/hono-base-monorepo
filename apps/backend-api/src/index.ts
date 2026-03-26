@@ -1,6 +1,5 @@
 import { env } from "@repo/config";
-import { createLogger, loggerMiddleware } from "@repo/logger";
-
+import { createLogger } from "@repo/logger";
 import { serve } from "@hono/node-server";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
@@ -17,7 +16,7 @@ const logger = createLogger({
 // Initialize all service instances (DB, Mailer, Auth)
 getInstances();
 
-import { sessionMiddleware } from "./middleware/session.js";
+import { sessionMiddleware, loggerMiddleware } from "./middleware/index.js";
 import { authRoutes } from "./modules/auth/index.js";
 import { healthRoutes } from "./modules/health/index.js";
 
@@ -33,7 +32,7 @@ app.use(
     credentials: true,
   }),
 );
-app.use("*", loggerMiddleware<AppEnv>({ logger }));
+app.use("*", loggerMiddleware);
 app.use("*", sessionMiddleware);
 
 app.get("/", (c) => c.redirect("/docs"));

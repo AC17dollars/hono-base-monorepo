@@ -22,13 +22,9 @@
     "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/mail": "workspace:*",
-    "better-auth": "^1.5.4"
+    "better-auth": "^1.5.6"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.54.1",
-    "@repo/typescript-config": "workspace:*",
-    "@types/node": "^25.4.0",
-    "tsdown": "^0.20.3",
-    "typescript": "^5.9.3"
+    "@repo/typescript-config": "workspace:*"
   }
 }
