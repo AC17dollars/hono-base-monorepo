@@ -27,12 +27,17 @@
     "auth:generate": "turbo run build --filter=@repo/auth... && pnpm --filter @repo/auth generate"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.57.2",
+    "@dotenvx/dotenvx": "^1.58.0",
     "@types/node": "^25.5.0",
-    "tsdown": "^0.21.5",
+    "tsdown": "^0.21.6",
     "tsx": "^4.21.0",
     "turbo": "^2.8.20",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "overrides": {
+      "bullmq": "^5.71.1"
+    }
+  }
 }

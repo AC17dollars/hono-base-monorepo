@@ -11,6 +11,6 @@
     "@repo/mail": "workspace:*",
     "@repo/queue": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "bullmq": "^5.70.4"
+    "bullmq": "^5.71.1"
   }
 }

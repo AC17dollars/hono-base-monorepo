@@ -1,20 +1,15 @@
 import { env } from "@repo/config";
-import { createLogger } from "@repo/logger";
 import { serve } from "@hono/node-server";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { openAPIRouteHandler } from "hono-openapi";
-import { getInstances } from "./lib/instances.js";
-import type { AppEnv } from "./lib/app.js";
-
-const logger = createLogger({
-  level: env.NODE_ENV === "production" ? "info" : "debug",
-  dev: env.NODE_ENV !== "production",
-});
+import { getInstances, getLogger } from "@/lib/instances.js";
+import type { AppEnv } from "@/lib/app.js";
 
 // Initialize all service instances (DB, Mailer, Auth)
 getInstances();
+const logger = getLogger();
 
 import { sessionMiddleware, loggerMiddleware } from "./middleware/index.js";
 import { authRoutes } from "./modules/auth/index.js";

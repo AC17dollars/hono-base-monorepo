@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { describeRoute, resolver } from "hono-openapi";
-import type { AppEnv } from "../../lib/app.js";
+import type { AppEnv } from "@/lib/app.js";
 import { healthResponseSchema } from "./schemas.js";
 import { getHealthStatus } from "./services.js";
 

@@ -19,7 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "nodemailer": "^8.0.2"
+    "nodemailer": "^8.0.4"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
