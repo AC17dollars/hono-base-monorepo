@@ -2,7 +2,12 @@ packages:
   - apps/*
   - packages/*
 
-onlyBuiltDependencies:
-  - esbuild
-  - msgpackr-extract
-  - prisma
+# Keep a single bullmq across @repo/queue and queue-worker so both sides of the
+# queue talk the same protocol version.
+overrides:
+  bullmq: ^6.2.1
+
+# pnpm 11 replaced onlyBuiltDependencies with an explicit allow/deny map.
+allowBuilds:
+  esbuild: true # drizzle-kit
+  msgpackr-extract: true # bullmq

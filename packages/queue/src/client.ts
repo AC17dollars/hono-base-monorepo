@@ -15,7 +15,7 @@ export interface QueueClient {
 export function createQueueClient(options: QueueClientOptions): QueueClient {
   const connection = new Redis(options.redisUrl);
   const mailQueue = new Queue(MAIL_QUEUE_NAME, {
-    connection: connection as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    connection,
     defaultJobOptions: {
       attempts: 3,
       backoff: {

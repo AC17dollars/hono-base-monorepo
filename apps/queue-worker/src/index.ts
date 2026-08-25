@@ -55,7 +55,7 @@ const worker = new Worker(
     await processMailJob(job);
   },
   {
-    connection: connection as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    connection,
     concurrency: 5,
   },
 );
